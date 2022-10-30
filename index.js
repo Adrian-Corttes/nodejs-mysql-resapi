@@ -1,24 +1,27 @@
 import express from "express";
 import employessRoutes from "./src/routes/employees.routes.js";
 import indexRoutes from "./src/routes/index.routes.js";
+import './src/config.js'
 
 const server = express();
+server.use(express.json());
 
 //Settings
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 3000;
 
-server.use(express.json());
-server.use(employessRoutes);
-server.use(indexRoutes)
+server.use('/api', employessRoutes);
+server.use('/api', indexRoutes)
+
+server.use((req, res, next) => {
+  res.status(404).json({
+    message: "Oooups... Not Found.",
+  })
+})
+
 
 
 
 server.listen(port, () => {
-   console.log(`Server listening on port http://localhost:${port}`);
- });
+  console.log(`Server listening on port http://localhost:${port}`);
+});
 
-
-
-
-
-//https://www.youtube.com/watch?v=3dSkc-DIM74&t=1360s 1:15:43
